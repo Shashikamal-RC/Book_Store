@@ -1,0 +1,75 @@
+<div class="container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <img src="../assets/icon.jpg" alt="Book" width="4%" style="border-radius:30%"> &nbsp;
+      <span> BookStore</span>
+      <span class="menu-spacer"></span>
+      <div fxShow="true" fxHide.lt-md>
+
+        <a routerLink="home" mat-button>
+            <mat-icon>home</mat-icon>
+            Home
+        </a>
+        <a [routerLink]="['cart']" mat-button>
+          <mat-icon matBadge={{cartItems}} matBadgeColor="accent">shopping_cart</mat-icon>
+        </a>
+        <a mat-button [matMenuTriggerFor]="menu" >
+            <p-avatar  image="../assets/icon.jpg" styleClass="p-m-2" size="large" shape="circle"></p-avatar>
+            <mat-icon>arrow_drop_down</mat-icon>
+        </a>
+        <mat-menu #menu="matMenu">
+            <button routerLink="admin" mat-menu-item *ngIf="isAuthenticated && isAdmin">
+              <mat-icon>admin_panel_settings</mat-icon> &nbsp; &nbsp;
+              <span>Admin panel</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>person</mat-icon> &nbsp; &nbsp;
+                <span>My Profile</span>
+              </button>
+            <button mat-menu-item>
+              <mat-icon>dialpad</mat-icon> &nbsp; &nbsp;
+              <span>My orders</span>
+            </button>
+            <button (click)="changePassword()" mat-menu-item *ngIf="isAuthenticated">
+              <mat-icon>logout</mat-icon> &nbsp; &nbsp;
+              <span>Change password</span>
+            </button>
+            <button (click)="logout()" mat-menu-item *ngIf="isAuthenticated">
+              <mat-icon>logout</mat-icon> &nbsp; &nbsp;
+              <span>Logout</span>
+            </button>
+            <button (click)="signIn()" mat-menu-item *ngIf="!isAuthenticated">
+              <mat-icon>login</mat-icon> &nbsp; &nbsp;
+              <span>Sign In</span>
+            </button>
+            <button (click)="signUp()" mat-menu-item *ngIf="!isAuthenticated">
+              <mat-icon>new_label</mat-icon> &nbsp; &nbsp;
+              <span>Register</span> 
+            </button>
+        </mat-menu>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav>
+      <mat-nav-list>
+        <a (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+        <a href="#" mat-list-item>Menu Item 1</a>
+        <a href="#" mat-list-item>Menu Item 2</a>
+        <a href="#" mat-list-item>Menu Item 3</a> 
+        <a href="#" mat-list-item>Menu Item 4</a>
+        <a href="#" mat-list-item>Menu Item 5</a>
+        <a href="#"mat-list-item>Menu Item 6</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+<p-toast></p-toast>

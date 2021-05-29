@@ -1,0 +1,11 @@
+**/migrations
+*.DS_Store
+**/__pycache__
+**/.DS_Store
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+media
+db.sqlite3

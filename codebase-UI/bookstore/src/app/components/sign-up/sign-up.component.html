@@ -1,0 +1,39 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+            <label for="first_name">First name</label>
+            <input formControlName="first_name" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="last_name">Last Name</label>
+            <input formControlName="last_name" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-6">
+            <label for="username">User name</label>
+            <input formControlName="username" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-6">
+            <label for="email">Email</label>
+            <input formControlName="email" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="phone_number">Phone Number</label>
+            <p-inputNumber formControlName="phone_number" [useGrouping]="false"></p-inputNumber>
+        </div>
+        <div class="p-field p-col-6">
+            <label for="password">Password</label>
+            <input formControlName="password" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="confirm_password">Confirm Password</label>
+            <input formControlName="confirm_password" type="text" pInputText> 
+        </div>
+
+    </div>
+    <br>
+    <br>
+    <div class="p-d-flex p-jc-end">
+        <button pButton pRipple type="button" label="Reset" icon="pi pi-times" class="p-button-warning p-mr-2" (click)="resetsignUpForm()"></button>
+        <button pButton pRipple type="submit" label="Submit" icon="pi pi-check" class="p-button-primary p-mr-2"  [disabled]="!signUpForm.valid"></button>
+     </div>
+</form>

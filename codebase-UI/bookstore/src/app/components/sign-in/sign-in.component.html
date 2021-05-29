@@ -1,0 +1,18 @@
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12">
+            <label for="username">User name</label>
+            <input formControlName="username" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12">
+            <label for="password">Password</label>
+            <input formControlName="password" type="text" pInputText> 
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="p-d-flex p-jc-end">
+        <button pButton pRipple type="button" label="Reset" icon="pi pi-times" class="p-button-warning p-mr-2" (click)="resetsignInForm()"></button>
+        <button pButton pRipple type="submit" label="Submit" icon="pi pi-check" class="p-button-primary p-mr-2"  [disabled]="!signInForm.valid"></button>
+     </div>
+</form>

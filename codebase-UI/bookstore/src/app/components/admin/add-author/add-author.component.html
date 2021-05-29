@@ -1,0 +1,33 @@
+<form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+            <label for="first_name">First name</label>
+            <input formControlName="first_name" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="dob">Date Of Birth</label>
+            <p-calendar formControlName="dob"></p-calendar>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <label for="last_name">Last Name</label>
+            <input formControlName="last_name" type="text" pInputText> 
+        </div>
+        <div class="p-field p-col-12">
+            <label for="sex">Sex</label>
+            <p-dropdown formControlName="sex" [options]="sex" placeholder="Select" optionLabel="name" optionValue="code"></p-dropdown>
+        </div>
+        <div class="p-field p-col-12">
+            <label for="photo">Author photo</label>
+            <p-fileUpload ngDefaultControl [showCancelButton]="false" accept="image/*" [maxFileSize]="1000000" formControlName="photo"
+                    [customUpload]="true" (onSelect)="imageUpload($event)"
+                    chooseLabel="Choose Image" [showUploadButton]="false">
+            </p-fileUpload>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="p-d-flex p-jc-end">
+        <button pButton pRipple type="button" label="Reset" icon="pi pi-times" class="p-button-warning p-mr-2" (click)="resetAuthor()"></button>
+        <button pButton pRipple type="submit" label="Submit" icon="pi pi-check" class="p-button-primary p-mr-2"  [disabled]="!authorForm.valid"></button>
+     </div>
+</form>

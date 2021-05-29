@@ -1,0 +1,41 @@
+<div *ngIf="cart.length; then thenBlock else elseBlock"></div>
+
+<ng-template #thenBlock>
+    <div class="container">
+        <h1 style="padding: 1%;">My Cart</h1>
+        <div *ngFor="let item of cart" class="grid-item">
+            <app-cart-item
+                [removeFromCart]="true"
+                [item]="item"
+            ></app-cart-item>
+        </div>    
+        <hr>
+        <div style="padding: 20px;">
+            <h1>Price Details: </h1>
+            <mat-list>
+                <mat-list-item>Price ({{ cart.length }} item(s)) <span class="menu-spacer"></span>&#x20B9;{{ totalPrice }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>Discount <span class="menu-spacer"></span> - &#x20B9; {{ discount }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>Delivery Charge <span class="menu-spacer"></span>&#x20B9; {{ deliveryCharge }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><strong>Amount Payable</strong> <span class="menu-spacer"></span><strong>&#x20B9;{{ totalPrice + deliveryCharge - discount}}</strong></mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
+            <br><br>
+            <button mat-raised-button [routerLink]="['/customer/home']" color="primary">Continue Shopping</button> &nbsp;
+            <button mat-raised-button (click)="confirm_order()" color="warn">Proceed To Checkout</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #elseBlock>
+    <div class="container" style="text-align: center; padding-top: 10px; width: 50%">
+        <mat-card>
+            <img  src="/assets/empty_cart.png" alt="empty cart image">
+            <mat-card-actions>
+                <button mat-raised-button [routerLink]="['/customer/home']" color="primary"> <mat-icon>shopping_cart</mat-icon> Continue Shopping</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</ng-template>
