@@ -19,8 +19,15 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { OrderConfirmComponent } from './components/order-confirm/order-confirm.component';
+import { ChooseDetailsComponent } from './components/order-confirm/choose-details/choose-details.component';
+import { ChoosePaymentComponent } from './components/order-confirm/choose-payment/choose-payment.component';
+import { OrderSummaryComponent } from './components/order-confirm/order-summary/order-summary.component';
+import { UserAddressComponent } from './components/order-confirm/choose-details/user-address/user-address.component';
 
 
 @NgModule({
@@ -32,7 +39,12 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     CartComponent,
     OrderComponent,
     ChangePasswordComponent,
-    CartItemComponent
+    CartItemComponent,
+    OrderConfirmComponent,
+    ChooseDetailsComponent,
+    ChoosePaymentComponent,
+    OrderSummaryComponent,
+    UserAddressComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +64,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
       multi: true
     },
     DialogService, 
-    MessageService
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

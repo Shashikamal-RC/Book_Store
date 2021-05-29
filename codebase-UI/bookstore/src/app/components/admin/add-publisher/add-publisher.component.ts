@@ -21,7 +21,7 @@ export class AddPublisherComponent implements OnInit {
   ) {
     this.publisherForm = this.formBuilder.group({
       name: new FormControl('', Validators.required),
-      phone_number: new FormControl('', Validators.required),
+      phone_number: new FormControl(null, Validators.required),
       street_address: new FormControl(0, Validators.required),
       address_line_2: new FormControl(),
       city: new FormControl('', Validators.required),

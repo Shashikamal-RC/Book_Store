@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import BookListViewSet, BookDetailViewSet, AuthorListViewSet, AuthorDetailViewSet, UserProfileListViewSet, \
-    UserProfileDetailViewSet, OrderListViewSet, OrderDetailViewSet, PublisherListViewSet, PublisherDetailViewSet
+    UserProfileDetailViewSet, OrderListViewSet, OrderDetailViewSet, PublisherListViewSet, PublisherDetailViewSet, \
+    AddressDetailViewSet
 
 urlpatterns = [
     url(r'^books/$', BookListViewSet.as_view()),
@@ -12,5 +13,6 @@ urlpatterns = [
     url(r'^publisher/$', PublisherListViewSet.as_view()),
     url(r'^publisher/(?P<pk>\d+)/$', PublisherDetailViewSet.as_view()),
     url(r'^order/$', OrderListViewSet.as_view()),
-    url(r'^order/(?P<pk>\d+)/$', OrderDetailViewSet.as_view())
+    url(r'^order/(?P<pk>\d+)/$', OrderDetailViewSet.as_view()),
+    url(r'^user/(?P<user>\w+)/address/(?P<pk>\d+)/$', AddressDetailViewSet.as_view())
 ]

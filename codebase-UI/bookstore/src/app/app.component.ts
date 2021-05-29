@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.cardSub = this.cartService.cart.subscribe(data => {
-      this.cartItems = JSON.parse(localStorage.getItem("cart") || '{}').length;      
+      this.cartItems = JSON.parse(localStorage.getItem("bookcart") || '{}').length;      
     })
 
     this.authService.getAuthentication().subscribe(data => {
@@ -46,7 +46,10 @@ export class AppComponent implements OnInit {
     console.log(localStorage.getItem("isAuthenticated"))
     this.isAuthenticated = (localStorage.getItem("isAuthenticated") === "true") ? true : false || false;
 
-    this.token = JSON.parse(localStorage.getItem("userData") || '{}').token.access;
+    this.token = JSON.parse(localStorage.getItem("userData") || '{}')
+    if(this.token){
+      this.token = this.token.access;
+    }
     console.log(jwt_decode(this.token))
   }
 

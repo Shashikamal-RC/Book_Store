@@ -23,8 +23,18 @@
                 <mat-divider></mat-divider>
             </mat-list>
             <br><br>
-            <button mat-raised-button [routerLink]="['/customer/home']" color="primary">Continue Shopping</button> &nbsp;
-            <button mat-raised-button (click)="confirm_order()" color="warn">Proceed To Checkout</button>
+            <div class="p-d-flex p-jc-between">
+                <div>
+                    <button mat-raised-button [routerLink]="['/home']" color="primary">Continue Shopping</button>
+                </div>
+                <div>
+                    <button *ngIf="this.isAuthenticated" mat-raised-button routerLink="/confirmorder" color="warn">Proceed To Checkout</button>
+                    <div *ngIf="!this.isAuthenticated">
+                        <button *ngIf="!this.isAuthenticated" mat-raised-button (click)="signintocontinue()" color="warn">Sign In </button> &nbsp; or &nbsp;
+                        <button *ngIf="!this.isAuthenticated" mat-raised-button (click)="registertocontinue()" color="warn">Register </button> &nbsp; to continue with order.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </ng-template>
@@ -34,7 +44,7 @@
         <mat-card>
             <img  src="/assets/empty_cart.png" alt="empty cart image">
             <mat-card-actions>
-                <button mat-raised-button [routerLink]="['/customer/home']" color="primary"> <mat-icon>shopping_cart</mat-icon> Continue Shopping</button>
+                <button mat-raised-button [routerLink]="['/home']" color="primary"> <mat-icon>shopping_cart</mat-icon> Continue Shopping</button>
             </mat-card-actions>
         </mat-card>
     </div>

@@ -1,0 +1,16 @@
+<div class="p-m-4">
+    <p-card> 
+        Order details
+    </p-card>
+</div>
+
+<div class="p-m-4">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <button pButton type="button" label="Back" icon="pi pi-backward" (click)="goToAdressDetails()" iconPos="left"></button>
+        </ng-template> 
+        <ng-template pTemplate="right">
+            <button pButton type="button" label="Next" icon="pi pi-forward" (click)="goToPayment()" iconPos="right"></button>
+        </ng-template> 
+    </p-toolbar>
+</div>

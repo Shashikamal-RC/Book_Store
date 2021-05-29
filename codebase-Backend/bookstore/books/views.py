@@ -1,12 +1,14 @@
 from rest_framework import generics, status, permissions
 from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, \
     BooksPostSerializer, BooksResponseSerializer, AuthorsPostSerializer, AuthorsResponseSerializer, \
-    UserProfileSerializer, OrderSerializer, PublisherPostSerializer, PublisherResponseSerializer
+    UserProfileSerializer, OrderSerializer, PublisherPostSerializer, PublisherResponseSerializer, AddressSerializer
 from .utils import create_user_account
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import logout
-from .models import Books, Authors, UserProfile, Order, Publishers
+from .models import Books, Authors, UserProfile, Order, Publishers, Address
+from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 
 
 class UserRegisterViewSet(generics.CreateAPIView):
@@ -186,7 +188,7 @@ class UserProfileDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
@@ -206,6 +208,32 @@ class OrderListViewSet(generics.ListCreateAPIView):
 class OrderDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class AddressDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user')
+        user = User.objects.filter(username=self.request.user).first()
+        print("user : ", int(user_id), type(user.id))
+        if int(user_id) == user.id:
+            return Address.objects.all()
+        else:
+            raise PermissionDenied({"message": 'You are authorized to access this address'})
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

@@ -1,0 +1,51 @@
+<div class="p-m-4">
+    <p-card> 
+        <div *ngIf="userDetails?.addresses.length; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <h2>Phone number : {{userDetails?.phone_number}} &nbsp; 
+                    <p-button icon="pi pi-pencil" matTooltip="Edit Phone number"></p-button> 
+                    <button pButton pRipple type="button" label="Add new Address" icon="pi pi-plus"  (click)="addressDetails()"
+                        matTooltip="Add new address" class="p-button-success button-right"></button>
+            </h2>
+            
+            <hr>
+            <div class="p-d-flex p-flex-column">
+                <p *ngFor="let item of userDetails?.addresses">
+                    <p-card>
+                        <ng-template pTemplate="header">
+                            <p-button icon="pi pi-pencil" (click)="addressDetails(item)" matTooltip="Edit Address" class="button-right p-ml-2"></p-button>
+                            <button pButton type="button" label="Select" disabled="true" class="p-button-outlined button-right">
+                                <p-radioButton name="groupname" value="{{item?.id}}"  matTooltip="Choose delivery address"
+                                [(ngModel)]="selectedValue" (click)="selectedAddress()" class="p-mr-2"></p-radioButton>
+                            </button>
+                        </ng-template>
+                            <h4>{{ item?.street_address }}</h4>
+                            <h4>{{ item?.address_line_2 }}</h4>
+                            <h4>{{ item?.city }}</h4>
+                            <h4>{{ item?.state }}</h4>
+                            <h4>{{ item?.zip_code }}</h4>
+                    </p-card>
+                </p>
+            </div>
+            
+        </ng-template>
+        
+        <ng-template #elseBlock>
+            <p>No Address available</p>
+            <button pButton pRipple type="button" label="Add new Address" icon="pi pi-plus"  (click)="addressDetails()"
+                matTooltip="Add new address" class="p-button-success"></button>
+        </ng-template>
+    </p-card>
+</div>
+
+<div class="p-m-4">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <!-- <button pButton type="button" label="Back" icon="pi pi-backward" iconPos="left"></button> -->
+        </ng-template> 
+        <ng-template pTemplate="right">
+            <button pButton type="button" label="Next" icon="pi pi-forward" (click)="goToOrderSummary()" iconPos="right"
+            [disabled]="disableNext" ></button>
+        </ng-template> 
+    </p-toolbar>
+</div>

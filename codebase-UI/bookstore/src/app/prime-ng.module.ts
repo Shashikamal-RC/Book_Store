@@ -21,6 +21,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { TimelineModule } from 'primeng/timeline';
+import { StepsModule } from 'primeng/steps';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [],
@@ -47,7 +49,9 @@ import { TimelineModule } from 'primeng/timeline';
     FileUploadModule,
     MultiSelectModule,
     CalendarModule,
-    TimelineModule
+    TimelineModule,
+    StepsModule,
+    RadioButtonModule
   ]
 })
 export class PrimeNgModule { }

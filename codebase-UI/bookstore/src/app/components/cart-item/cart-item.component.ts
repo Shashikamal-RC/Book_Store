@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
-import { environment } from 'src/environments/environment';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-cart-item',
@@ -15,14 +16,14 @@ export class CartItemComponent implements OnInit {
   
   constructor(
     private cartService : CartService,
-    private router : Router
+    private router : Router,
+    private messageService: MessageService,
+    private confirmDialogService: ConfirmationService
   ) { }
 
-  imageUrl : any;
   quantity : number = 0;
 
   ngOnInit(): void {
-    this.imageUrl = environment.apiUrl + "/product/photo/" + this.item._id;
     this.quantity = this.item.count;
   }
 
@@ -30,32 +31,44 @@ export class CartItemComponent implements OnInit {
     this.quantity += count;
   }
 
+  removeItem = () => {
+      this.confirmDialogService.confirm({
+          message: `Are you sure that you want to delete ${this.item?.title} from cart?`,
+          accept: () => {
+              //Actual logic to perform a confirmation
+              this.removeItemFromCart();
+          }
+      });
+  }
+
   removeItemFromCart(){
     let cart : any = [];
-    if(localStorage.getItem("cart")){
-      cart = JSON.parse(localStorage.getItem("cart") || '{}')
+    if(localStorage.getItem("bookcart")){
+      cart = JSON.parse(localStorage.getItem("bookcart") || '{}')
     }
-    cart.map((product: { _id: any; },index: any) => {
-        if(product._id === this.item._id){
+    cart.map((product: { id: any; },index: any) => {
+        if(product.id === this.item.id){
             cart.splice(index,1)
         }
     })
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("bookcart", JSON.stringify(cart));
 
     this.cartService.addToCart("");
+
+    this.messageService.add({severity: 'info', summary: 'Item Deleted', detail: `${this.item?.title} deleted from cart`});
   }
 
   decreaseCount(){
     let cart : any = [];
-    if(localStorage.getItem("cart")){
-      cart = JSON.parse(localStorage.getItem("cart") || '{}')
+    if(localStorage.getItem("bookcart")){
+      cart = JSON.parse(localStorage.getItem("bookcart") || '{}')
     }
-    cart.map((product: { _id: any, count : any },index: any) => {
-        if(product._id === this.item._id){
+    cart.map((product: { id: any, count : any },index: any) => {
+        if(product.id === this.item.id){
             product.count = product.count - 1;
         }
     })
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("bookcart", JSON.stringify(cart));
     this.cartService.addToCart("");
     this.reloadQuantity(-1);
   }
@@ -63,20 +76,20 @@ export class CartItemComponent implements OnInit {
   increaseCount(){
     let cart : any = [];
     if(localStorage.getItem("cart")){
-      cart = JSON.parse(localStorage.getItem("cart") || '{}')
+      cart = JSON.parse(localStorage.getItem("bookcart") || '{}')
     }
-    cart.map((product: { _id: any, count : any },index: any) => {
-        if(product._id === this.item._id){
+    cart.map((product: { id: any, count : any },index: any) => {
+        if(product.id === this.item.id){
             product.count = product.count + 1;
         }
     })
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("bookcart", JSON.stringify(cart));
     this.cartService.addToCart("");
     this.reloadQuantity(1);
   }
 
   goToItemDetailsPage(){
-    this.router.navigate(['customer/item', this.item._id])
+    this.router.navigate(['customer/item', this.item.id])
   }
 
 }

@@ -128,7 +128,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = '__all__'
-        depth = 1
+
+    def update(self, instance, validated_data):
+        if 'addresses' in validated_data.keys():
+            addresses = validated_data.pop('addresses')
+            for item in addresses:
+                print("item  ", item)
+                address = Address.objects.create(**item)
+                instance.addresses.add(address)
+        if 'phone_number' in validated_data.keys():
+            instance.phone_number = validated_data.get('phone_number')
+        instance.save()
+        return instance
 
 
 class CartSerializer(serializers.ModelSerializer):

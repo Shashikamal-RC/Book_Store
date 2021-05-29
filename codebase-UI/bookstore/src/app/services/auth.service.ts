@@ -108,4 +108,16 @@ export class AuthService {
     return throwError(errorMessage)
   }
 
+  fetchUserProfile = (user_id: any) => {
+    return this.http.get(environment.apiUrl + "/userprofile/" + user_id )
+  }
+
+  patchUserProfile = (user_id: any, userData: any) => {
+    return this.http.patch(environment.apiUrl + "/userprofile/" + user_id + "/", userData );
+  }
+
+  updateAddress = (user_id: any, address_id: any, address: any) => {
+    return this.http.patch(environment.apiUrl + "/user/" + user_id + "/address/" + address_id + "/", address);
+  }
+
 }
