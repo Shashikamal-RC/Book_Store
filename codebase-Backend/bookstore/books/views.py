@@ -1,7 +1,7 @@
 from rest_framework import generics, status, permissions
-from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, BooksSerializer, \
-    AuthorsPostSerializer, AuthorsResponseSerializer, UserProfileSerializer, OrderSerializer, PublisherPostSerializer, \
-    PublisherResponseSerializer
+from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, \
+    BooksPostSerializer, BooksResponseSerializer, AuthorsPostSerializer, AuthorsResponseSerializer, \
+    UserProfileSerializer, OrderSerializer, PublisherPostSerializer, PublisherResponseSerializer
 from .utils import create_user_account
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -50,19 +50,28 @@ class LogoutViewSet(generics.CreateAPIView):
 
 class BookListViewSet(generics.ListCreateAPIView):
     queryset = Books.objects.all()
-    serializer_class = BooksSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return BooksPostSerializer
+        else:
+            return BooksResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print("data : ", self.request.data)
         return self.create(request, *args, **kwargs)
 
 
 class BookDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Books.objects.all()
-    serializer_class = BooksSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return BooksPostSerializer
+        else:
+            return BooksResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

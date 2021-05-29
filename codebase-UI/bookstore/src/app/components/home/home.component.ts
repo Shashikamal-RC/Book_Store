@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BookService } from 'src/app/services/book.service';
+
 
 @Component({
   selector: 'app-home',
@@ -7,12 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private bookService: BookService
+  ) { }
 
   products: any[] = [];
   sortOptions: any[] = [];
   sortOrder: number = 0;
   sortField: string = '';
+  books: any;
+  booksData: any[] = [];
 
   sortKey: any;
   searchText: string = "";
@@ -22,6 +28,14 @@ export class HomeComponent implements OnInit {
         {label: 'Price High to Low', value: '!price'},
         {label: 'Price Low to High', value: 'price'}
     ];
+
+    this.bookService.fetchBooks().subscribe(data => {
+      console.log("books", data)
+      this.books = data;
+      this.booksData = this.books.results;
+    }, error => {
+      console.log("error in fetching books")
+    })
     
     this.products.push(
       {

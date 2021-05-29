@@ -73,14 +73,12 @@ export class AddBookComponent implements OnInit {
   }
 
   onSubmit = () => {
-    let authors = [];
     this.bookForm.value.authors.map((item: any) => {
-      authors.push(parseInt(item))
+      this.formData.append('authors', item)
     })
     this.formData.append('title', this.bookForm.value.title)  
     this.formData.append('ISBN', this.bookForm.value.ISBN)  
-    this.formData.append('price', this.bookForm.value.price)  
-    this.formData.append('authors', JSON.parse(JSON.stringify(authors)))
+    this.formData.append('price', this.bookForm.value.price)
     this.formData.append('publisher', this.bookForm.value.publisher)  
     this.formData.append('stock', this.bookForm.value.stock)  
     

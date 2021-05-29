@@ -105,12 +105,20 @@ class PublisherPostSerializer(serializers.ModelSerializer):
         return validated_data
 
 
-class BooksSerializer(serializers.ModelSerializer):
+class BooksPostSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(max_length=None, use_url=True, required=True)
 
     class Meta:
         model = Books
         exclude = ['created_by', 'last_modified_by']
+
+
+class BooksResponseSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(max_length=None, use_url=True, required=True)
+
+    class Meta:
+        model = Books
+        fields = '__all__'
         depth = 1
 
 
