@@ -44,9 +44,11 @@ export class CartComponent implements OnInit {
   cartItems = () => {
     this.cart = JSON.parse(localStorage.getItem("bookcart") || '{}');
     this.totalPrice = 0;
-    this.cart.map((item : any) => {
-      this.totalPrice += item.price * item.count ;
-    })
+    if(this.cart.length > 0){
+      this.cart.map((item : any) => {
+        this.totalPrice += item.price * item.count ;
+      })
+    }
   }
 
   confirm_order = () => {

@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^author/(?P<pk>\d+)/$', AuthorDetailViewSet.as_view()),
     url(r'^publisher/$', PublisherListViewSet.as_view()),
     url(r'^publisher/(?P<pk>\d+)/$', PublisherDetailViewSet.as_view()),
-    url(r'^order/$', OrderListViewSet.as_view()),
-    url(r'^order/(?P<pk>\d+)/$', OrderDetailViewSet.as_view()),
+    url(r'^user/(?P<user>\w+)/order/$', OrderListViewSet.as_view()),
+    url(r'^user/(?P<user>\w+)/order/(?P<pk>\d+)/$', OrderDetailViewSet.as_view()),
     url(r'^user/(?P<user>\w+)/address/(?P<pk>\d+)/$', AddressDetailViewSet.as_view())
 ]

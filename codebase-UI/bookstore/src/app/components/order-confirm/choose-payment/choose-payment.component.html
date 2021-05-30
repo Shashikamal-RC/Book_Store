@@ -1,6 +1,12 @@
 <div class="p-m-4">
     <p-card> 
-        Payment details
+        <h2>Choose payment mode : </h2>
+        <div *ngFor="let payment of payments" class="p-field-checkbox p-m-5">
+            <p-radioButton [inputId]="payment.key" name="payment" [value]="payment"  (click)="paymentMethodChoose()"
+                    [(ngModel)]="selectedPayment" [disabled]="payment.key === 'R'"></p-radioButton>
+            <label [for]="payment.key">{{payment.name}}</label>
+        </div>
+
     </p-card>
 </div>
 
@@ -10,7 +16,7 @@
             <button pButton type="button" label="Back" icon="pi pi-backward" iconPos="left" (click)="goToOrderDetails()"></button>
         </ng-template> 
         <ng-template pTemplate="right">
-            <button pButton type="button" label="Confirm" icon="pi pi-check" iconPos="right" (click)="confirmOrder()" 
+            <button pButton type="button" label="Confirm" icon="pi pi-check" iconPos="right" [disabled]="diableConfirm" (click)="confirmOrder()" 
             class="p-button-success"></button>
         </ng-template> 
     </p-toolbar>

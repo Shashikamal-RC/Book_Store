@@ -12,8 +12,7 @@ export class OrderSummaryComponent implements OnInit {
     private router: Router
   ) { }
 
-  cartItems : any;
-  totalPrice: number = 0;
+  orderDetails: any;
 
   ngOnInit(): void {
     this.fetchCartItems();
@@ -21,11 +20,7 @@ export class OrderSummaryComponent implements OnInit {
 
 
   fetchCartItems = () => {
-    this.cartItems = JSON.parse(localStorage.getItem("bookcart") || '{}');
-    this.totalPrice = 0;
-    this.cartItems.map((item : any) => {
-      this.totalPrice += item.price * item.count ;
-    })
+    this.orderDetails = JSON.parse(localStorage.getItem("bookcartWithAddress") || '{}');
   }
 
   goToAdressDetails = () => {

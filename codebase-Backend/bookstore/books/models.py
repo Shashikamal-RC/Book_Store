@@ -9,6 +9,7 @@ class Address(models.Model):
     city = models.CharField('', max_length=255, blank=False, null=False)
     state = models.CharField('', max_length=255, blank=False, null=False)
     zip_code = models.IntegerField('', blank=False, null=False)
+    phone_number = models.IntegerField('', blank=True, null=True)
 
 
 class UserProfile(models.Model):
@@ -65,7 +66,7 @@ class Books(models.Model):
 class Cart(models.Model):
     book = models.ForeignKey(Books, on_delete=models.SET_NULL, null=True, related_name='book')
     count = models.IntegerField('')
-    price = models.IntegerField('')
+    price = models.FloatField('')
 
 
 class Order(models.Model):
@@ -76,9 +77,19 @@ class Order(models.Model):
         DELIVERED = 'DEL', _('Delivered')
         CANCELLED = 'CAN', _('Cancelled')
 
+    class PaymentMode(models.TextChoices):
+        CASH_ON_DELIVERY = 'CASH_OD', _('Cash on delivery')
+        CARD_ON_DELIVERY = 'CARD_OD', _('Card on delivery')
+        PAY_ONLINE_ON_DELIVERY = 'PON_OD', _('Pay online on delivery')
+
     books = models.ManyToManyField(Cart)
-    amount = models.IntegerField('')
+    amount = models.FloatField('')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField('', max_length=3, choices=Status.choices, blank=False, null=False, default='REC')
-    date = models.DateTimeField('', auto_now=True)
+    payment_mode = models.CharField('', max_length=7, choices=PaymentMode.choices,
+                                    blank=False, null=False, default='CASH_OD')
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='Created By +')
+    last_modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='Last modified by +')
+    created_at = models.DateTimeField('', auto_now_add=True)
+    last_modified_at = models.DateTimeField('', auto_now=True)

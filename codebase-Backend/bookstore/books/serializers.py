@@ -39,7 +39,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['password']
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
@@ -122,7 +122,17 @@ class BooksResponseSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserProfileResponseSerializer(serializers.ModelSerializer):
+    addresses = AddressSerializer(many=True)
+    user = UserListSerializer(many=False)
+
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+        depth = 1
+
+
+class UserProfilePostSerializer(serializers.ModelSerializer):
     addresses = AddressSerializer(many=True)
 
     class Meta:
@@ -148,9 +158,39 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderPostSerializer(serializers.ModelSerializer):
     books = CartSerializer(many=True)
 
     class Meta:
         model = Order
+        exclude = ['user']
+
+    def create(self, validated_data):
+        books = validated_data['books']
+        user_id = self.kwargs.get('user')
+
+        order = Order.objects.create(**validated_data, user=user_id)
+
+        for item in books:
+            book = Cart.objects.create(**item)
+            order.books.add(book)
+        return validated_data
+
+    def update(self, instance, validated_data):
+        keys = validated_data.keys()
+        if 'books' in keys or 'amount' in keys() or 'address' in keys or 'payment_mode' in keys or 'date' in keys:
+            raise serializers.ValidationError({"message": "Cannot update these data"})
+        else:
+            instance.status = validated_data.get('status')
+            instance.save()
+        return instance
+
+
+class OrderResponseSerializer(serializers.ModelSerializer):
+    books = CartSerializer(many=True)
+    user = UserListSerializer(many=False)
+
+    class Meta:
+        model = Order
         fields = '__all__'
+        depth = 1

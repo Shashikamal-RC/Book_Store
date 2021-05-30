@@ -120,4 +120,8 @@ export class AuthService {
     return this.http.patch(environment.apiUrl + "/user/" + user_id + "/address/" + address_id + "/", address);
   }
 
+  confirmOrder = (user_id: any, orderData: any) => {
+    return this.http.post(environment.apiUrl + "/user/" + user_id + "/order/" , orderData)
+  }
+
 }

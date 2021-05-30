@@ -28,6 +28,7 @@ import { ChooseDetailsComponent } from './components/order-confirm/choose-detail
 import { ChoosePaymentComponent } from './components/order-confirm/choose-payment/choose-payment.component';
 import { OrderSummaryComponent } from './components/order-confirm/order-summary/order-summary.component';
 import { UserAddressComponent } from './components/order-confirm/choose-details/user-address/user-address.component';
+import { UserContactComponent } from './components/order-confirm/choose-details/user-contact/user-contact.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { UserAddressComponent } from './components/order-confirm/choose-details/
     ChooseDetailsComponent,
     ChoosePaymentComponent,
     OrderSummaryComponent,
-    UserAddressComponent
+    UserAddressComponent,
+    UserContactComponent
   ],
   imports: [
     BrowserModule,

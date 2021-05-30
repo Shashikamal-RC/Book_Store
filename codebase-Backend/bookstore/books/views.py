@@ -1,7 +1,8 @@
 from rest_framework import generics, status, permissions
 from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, \
     BooksPostSerializer, BooksResponseSerializer, AuthorsPostSerializer, AuthorsResponseSerializer, \
-    UserProfileSerializer, OrderSerializer, PublisherPostSerializer, PublisherResponseSerializer, AddressSerializer
+    UserProfilePostSerializer, UserProfileResponseSerializer, OrderPostSerializer, OrderResponseSerializer, \
+    PublisherPostSerializer, PublisherResponseSerializer, AddressSerializer
 from .utils import create_user_account
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -168,7 +169,12 @@ class PublisherDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
 
 class UserProfileListViewSet(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return UserProfilePostSerializer
+        else:
+            return UserProfileResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -179,7 +185,12 @@ class UserProfileListViewSet(generics.ListCreateAPIView):
 
 class UserProfileDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'PUT' or self.request.method == 'PATCH':
+            return UserProfilePostSerializer
+        else:
+            return UserProfileResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -195,8 +206,22 @@ class UserProfileDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
 
 
 class OrderListViewSet(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user')
+        user = User.objects.filter(username=self.request.user).first()
+        print("user : ", int(user_id), type(user.id))
+        if int(user_id) == user.id:
+            return Order.objects.all()
+        else:
+            raise PermissionDenied({"message": 'You are authorized to access this address'})
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return OrderPostSerializer
+        else:
+            return OrderResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -205,9 +230,23 @@ class OrderListViewSet(generics.ListCreateAPIView):
         return self.create(request, *args, **kwargs)
 
 
-class OrderDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+class OrderDetailViewSet(generics.RetrieveUpdateAPIView):
+    permission_classes = (permissions.IsAdminUser,)
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user')
+        user = User.objects.filter(username=self.request.user).first()
+        print("user : ", int(user_id), type(user.id))
+        if int(user_id) == user.id:
+            return Order.objects.all()
+        else:
+            raise PermissionDenied({"message": 'You are authorized to access this address'})
+
+    def get_serializer_class(self):
+        if self.request.method == 'PUT' or self.request.method == 'PATCH':
+            return OrderPostSerializer
+        else:
+            return OrderResponseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -217,9 +256,6 @@ class OrderDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
 
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 class AddressDetailViewSet(generics.RetrieveUpdateDestroyAPIView):

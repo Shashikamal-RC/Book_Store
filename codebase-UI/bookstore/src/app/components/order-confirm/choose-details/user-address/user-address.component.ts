@@ -22,7 +22,8 @@ export class UserAddressComponent implements OnInit {
       address_line_2: new FormControl(),
       city: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
-      zip_code: new FormControl(null, Validators.required)
+      zip_code: new FormControl(null, Validators.required),
+      phone_number: new FormControl(null, Validators.required)
     }) 
 
     console.log("data : ", this.config.data)
@@ -37,7 +38,8 @@ export class UserAddressComponent implements OnInit {
       address_line_2: this.config.data.data.address_line_2,
       city: this.config.data.data.city,
       state: this.config.data.data.state,
-      zip_code: this.config.data.data.zip_code
+      zip_code: this.config.data.data.zip_code,
+      phone_number: this.config.data.data.phone_number
     })
   }
 

@@ -1,6 +1,31 @@
+<div class="p-grid p-m-4" >
+    <div class="p-col-3" *ngFor="let item of orderDetails?.details">
+        <p-card header="{{ item?.title }}" subheader="ISBN : {{ item?.ISBN }}">
+            <ng-template pTemplate="header">
+                <img alt="Card" src="{{item?.image}}" height="400px">
+            </ng-template>
+            <mat-chip-list>
+                <mat-chip color="primary" selected>Quantity : {{ item?.count }}</mat-chip>
+                <mat-chip color="accent" selected>Total price : {{ item?.count * item?.price }} </mat-chip>
+            </mat-chip-list>
+        </p-card>
+    </div>
+</div>
+
 <div class="p-m-4">
-    <p-card> 
-        Order details
+    <p-card header="Delivery Address"> 
+        <h3>
+            {{ orderDetails?.address?.street_address }}, &nbsp;
+            {{ orderDetails?.address?.address_line_2 }}
+        </h3>
+        <h3>
+            {{ orderDetails?.address?.city }}, &nbsp;
+            {{ orderDetails?.address?.state }}, &nbsp;
+            {{ orderDetails?.address?.zip_code }}
+        </h3>
+        <h3>
+            <i *ngIf="orderDetails?.address?.phone_number" class="pi pi-phone"> {{ orderDetails?.address?.phone_number }} </i>
+        </h3>
     </p-card>
 </div>
 
