@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { BookService } from 'src/app/services/book.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,10 +19,12 @@ export class AdminComponent implements OnInit {
 
   Delete: string = "";
   searchText: string = "";
-  
+  books: any;
+  booksData: any;
 
   constructor(
-    private messageService: MessageService, 
+    private messageService: MessageService,
+    private bookService: BookService,
     private confirmationService: ConfirmationService
   ) { }
 
@@ -40,8 +43,19 @@ export class AdminComponent implements OnInit {
       price: '',
       quantity: ''
     }
+    this.fetchBooks();
   }
   
+  fetchBooks = () => {
+    this.bookService.fetchBooks().subscribe(data => {
+      console.log("books", data)
+      this.books = data;
+      this.booksData = this.books.results;
+    }, error => {
+      console.log("error in fetching books")
+    })
+  }
+
   createNewDetails = () => {
     //
   }

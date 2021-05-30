@@ -112,6 +112,11 @@ class BooksPostSerializer(serializers.ModelSerializer):
         model = Books
         exclude = ['created_by', 'last_modified_by']
 
+    def update(self, instance, validated_data):
+        if 'image' in validated_data.keys():
+            pass
+        return instance
+
 
 class BooksResponseSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(max_length=None, use_url=True, required=True)

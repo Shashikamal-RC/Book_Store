@@ -14,7 +14,7 @@
     
     <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
         <p-card>
-        
+            
             <div class="p-fluid p-formgrid p-grid">
                 <div class="p-field p-col-12 p-md-6">
                     <label for="firstname">ISBN</label>
@@ -30,6 +30,7 @@
                             [customUpload]="true" (onSelect)="imageUpload($event)"
                             chooseLabel="Choose Image" [showUploadButton]="false">
                     </p-fileUpload>
+                    <img *ngIf="imageUrl" src="{{imageUrl}}">
                 </div>
                 <div class="p-field p-col-12 p-md-6">
                     <label for="city">Stock</label>
@@ -59,3 +60,5 @@
         </p-card>
     </form>
 </div>
+
+<p-toast></p-toast>

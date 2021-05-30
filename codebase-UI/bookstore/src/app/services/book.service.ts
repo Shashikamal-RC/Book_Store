@@ -27,7 +27,7 @@ export class BookService {
   }
 
   updateBook = (book_id:any, book:any) => {
-    return this.http.put(this.baseURL + '/books/' + book_id, book);
+    return this.http.patch(this.baseURL + '/books/' + book_id + "/", book);
   }
 
   deleteBook = (book_id:any) => {
