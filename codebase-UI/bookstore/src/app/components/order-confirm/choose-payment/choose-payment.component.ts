@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-choose-payment',
@@ -16,7 +17,8 @@ export class ChoosePaymentComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private confirmDialogService: ConfirmationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService
   ) { }
 
   diableConfirm: boolean = true;
@@ -61,8 +63,14 @@ export class ChoosePaymentComponent implements OnInit {
             this.authService.confirmOrder(this.user_id, this.order).subscribe(data => {
                 this.messageService.add({severity: 'success', summary: 'Order confirm', 
                                          detail: 'We will notify you on further details'});
+                this.cartService.addToCart("");
+                localStorage.removeItem("bookcart");
+                localStorage.removeItem("bookcartWithAddress");
+                localStorage.removeItem("orderData");
                 this.router.navigate(['home'])
             }, error => {
+                this.selectedPayment = null;
+                this.diableConfirm = true;
                 this.messageService.add({severity: 'error', summary: 'Unable to confirm order', 
                                        detail: "Can't place order at this time. Please try later."});
             })

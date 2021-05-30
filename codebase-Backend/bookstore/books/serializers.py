@@ -167,10 +167,12 @@ class OrderPostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         books = validated_data['books']
-        user_id = self.kwargs.get('user')
-
-        order = Order.objects.create(**validated_data, user=user_id)
-
+        username = self.context['request'].user
+        user = User.objects.filter(username=username).first()
+        order = Order.objects.create(amount=validated_data.get('amount'),
+                                     payment_mode=validated_data.get('payment_mode'),
+                                     address=validated_data.get('address'),
+                                     user=user)
         for item in books:
             book = Cart.objects.create(**item)
             order.books.add(book)
